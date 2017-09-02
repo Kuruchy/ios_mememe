@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  ImagePicker
+//  MemeMe
 //
-//  Created by User1 on 01.09.17.
-//  Copyright © 2017 Kuruchy. All rights reserved.
+//  Created by Bruno Retolaza on 01.09.17.
+//  Copyright © 2017 Bruno Retolaza. All rights reserved.
 //
 
 import UIKit
@@ -43,4 +43,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-

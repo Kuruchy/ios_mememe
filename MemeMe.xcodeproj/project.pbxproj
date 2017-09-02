@@ -62,7 +62,7 @@
 				7F2F33C11F5943E200EAAE06 /* Info.plist */,
 			);
 			name = MemeMe;
-			path = ImagePicker;
+			path = MemeMe;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -81,7 +81,7 @@
 			dependencies = (
 			);
 			name = MemeMe;
-			productName = ImagePicker;
+			productName = MemeMe;
 			productReference = 7F2F33B21F5943E200EAAE06 /* MemeMe.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -263,7 +263,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = ImagePicker/Info.plist;
+				INFOPLIST_FILE = MemeMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuruchy.MemeMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -275,7 +275,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = ImagePicker/Info.plist;
+				INFOPLIST_FILE = MemeMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuruchy.MemeMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
