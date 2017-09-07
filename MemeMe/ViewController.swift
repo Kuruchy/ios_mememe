@@ -69,25 +69,26 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         unsubscribeFromNotifications()
     }
 
-    @IBAction func pickAnImage(_ sender: Any) {
-
+    func pickAnImage(from source: UIImagePickerControllerSourceType) {
         // Assigns the Controller to a constant
         let pickerController = UIImagePickerController()
-
+        
         // Sets its delegate to itself (musst xtend UIImagePickerControllerDelegate)
         pickerController.delegate = self
-
-        pickerController.sourceType = .photoLibrary
-
+        
+        pickerController.sourceType = source
+        
         // Present the controller
         self.present(pickerController, animated:true, completion: nil)
     }
+    
+    @IBAction func pichAnImageFromGallery(_ sender: Any) {
+        pickAnImage(from: .photoLibrary)
+    }
 
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .camera
-        present(pickerController, animated: true, completion: nil)    }
+        pickAnImage(from: .camera)
+    }
 
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
@@ -114,7 +115,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
 
-        return true;
+        return true
     }
 
     func keyboardWillShow(_ notification:Notification) {
