@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MemeMeEditorViewController.swift
 //  MemeMe
 //
 //  Created by Bruno Retolaza on 01.09.17.
@@ -8,26 +8,21 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate,
+class MemeMeEditorViewController: UIViewController, UIImagePickerControllerDelegate,
 UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var imagePickerView: UIImageView!
+    @IBOutlet weak var albumButton: UIBarButtonItem!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
-
+    
     @IBOutlet weak var topText: UITextField!
     @IBOutlet weak var bottomText: UITextField!
     @IBOutlet weak var topToolbar: UIToolbar!
     @IBOutlet weak var bottomToolbar: UIToolbar!
     @IBOutlet weak var shareButton: UIBarButtonItem!
 
-    //Structure definition for Meme instances
-    struct Meme {
-        var topText: String?
-        var bottomText: String?
-        var baseImage: UIImage?
-        var memedImage: UIImage
-    }
-
+    var edited: Bool = false
+    
     final let TOPBASETEXT = "TOP TEXT"
     final let BOTTOMBASETEXT = "BOTTOM TEXT"
 
@@ -43,10 +38,10 @@ UINavigationControllerDelegate, UITextFieldDelegate {
 
         // Prepare Text Attribute Dictionary for TextFields
         let memeTextAttributes:[String:Any]  = [
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName: -3.0,
-            NSStrokeColorAttributeName: UIColor.black,
-            NSForegroundColorAttributeName: UIColor.white
+            NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSAttributedStringKey.strokeWidth.rawValue: -3.0,
+            NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
+            NSAttributedStringKey.foregroundColor.rawValue: UIColor.white
             ]
 
         // Change Attributes of Textfields
@@ -80,6 +75,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         // Present the controller
         self.present(pickerController, animated:true, completion: nil)
+        edited = true
     }
     
     @IBAction func pichAnImageFromGallery(_ sender: Any) {
@@ -109,6 +105,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if (textField.text == TOPBASETEXT || textField.text == BOTTOMBASETEXT) {
             textField.text = ""
+            edited = true
         }
     }
 
@@ -118,13 +115,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         return true
     }
 
-    func keyboardWillShow(_ notification:Notification) {
+    @objc func keyboardWillShow(_ notification:Notification) {
         if bottomText.isFirstResponder {
             view.frame.origin.y = 0 - getKeyboardHeight(notification)
         }
     }
 
-    func keyboardWillHide(_ notification:Notification) {
+    @objc func keyboardWillHide(_ notification:Notification) {
         view.frame.origin.y = 0
     }
 
@@ -172,6 +169,10 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func save() {
         //Create the meme
         let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, baseImage: imagePickerView.image!, memedImage: generateMemedImage())
+        
+        // Add it to the memes array in the Application Delegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.memes.append(meme)
     }
 
     @IBAction func share(_ sender: Any) {
@@ -189,11 +190,19 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
 
     @IBAction func cancel(_ sender: Any) {
-        topText.text = TOPBASETEXT
-        bottomText.text = BOTTOMBASETEXT
-        imagePickerView.image = nil
-        // If there isn't an image in the view don't allow to click on share
-        shareButton.isEnabled = (imagePickerView.image != nil)
+        if edited {
+            topText.text = TOPBASETEXT
+            bottomText.text = BOTTOMBASETEXT
+            imagePickerView.image = nil
+            // If there isn't an image in the view don't allow to click on share
+            shareButton.isEnabled = (imagePickerView.image != nil)
+            edited = false
+        } else {
+            dismiss(animated: true, completion: nil)
+            
+        }
     }
-
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }
