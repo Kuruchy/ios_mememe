@@ -167,12 +167,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
 
     func save() {
-        //Create the meme
-        let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, baseImage: imagePickerView.image!, memedImage: generateMemedImage())
-        
-        // Add it to the memes array in the Application Delegate
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.memes.append(meme)
+        //Create the meme if all the elements are present
+        if(topText.text != nil && bottomText.text != nil && imagePickerView.image != nil) {
+            let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, baseImage: imagePickerView.image!, memedImage: generateMemedImage())
+            // Add it to the memes array in the Application Delegate
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.memes.append(meme)
+        }
     }
 
     @IBAction func share(_ sender: Any) {
